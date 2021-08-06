@@ -1,0 +1,437 @@
+<script src="https://unpkg.com/vue@next"></script>
+
+<div id="mainvue">
+  <div style="display: none;" :style="{display: preloaded?'block':'none'}">
+	<a id="spec-choice" href="#specs" class="choice-button">
+		<img v-bind:src="specImageUrl" id="img-spec-chosen" class="img-chosen-button">
+		<div class="text-chosen-button">
+      <div id="text-spec-chosen" class="chosen">{{classespe}}</div>
+      <div id="spec-choice-text" class="">Choisissez une spé</div>
+    </div>
+	</a>
+	<a id="boss-choice" href="#bosses" class="choice-button">
+		<img v-bind:src="bossImageUrl" id="img-boss-chosen" class="img-chosen-button">
+    <div class="text-chosen-button">
+      <div v-if="bossman" id="text-boss-chosen" class="chosen">{{bossman.name}}</div>
+      <div class="choix">Choisissez un boss</div>
+    </div>
+  </a>
+  <div v-if="preloaded" id="specs" class="overlay">
+    <div class="popup content">
+      <div class="class-row">
+        <div id="dk" class="deathknight class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'DeathKnight','Blood')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/DeathKnight_Blood.png">
+              <p>Sang</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'DeathKnight','Frost')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/DeathKnight_Frost.png">
+              <p>Givre</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'DeathKnight','Unholy')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/DeathKnight_Unholy.png">
+              <p>Impie</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched deathknight">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">DK</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="dh" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'DemonHunter','Havoc')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/DemonHunter_Havoc.png">
+              <p>Dps</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'DemonHunter','Vengeance')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/DemonHunter_Vengeance.png">
+              <p>Tank</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched demonhunter">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">DH</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="druide" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Druid','Balance')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Druid_Balance.png">
+              <p>Équi</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Druid','Feral')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Druid_Feral.png">
+              <p>Chat</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Druid','Guardian')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Druid_Guardian.png">
+              <p>Ours</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Druid','Restoration')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Druid_Restoration.png">
+              <p>Heal</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched druid">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Druide</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+      </div>
+      <div class="class-row">
+        <div id="chasseur" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Hunter','BeastMastery')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Hunter_BeastMastery.png">
+              <p>Béhem</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Hunter','Marksmanship')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Hunter_Marksmanship.png">
+              <p>Précis</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Hunter','Survival')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Hunter_Survival.png">
+              <p>Survie</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched hunter">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Chasseur</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="mage" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Mage','Arcane')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Mage_Arcane.png">
+              <p>Arcane</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Mage','Fire')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Mage_Fire.png">
+              <p>Feu</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Mage','Frost')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Mage_Frost.png">
+              <p>Givre</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched mage">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Mage</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="moine" class="class-container">
+          <div class="class-wrapper">          
+            <a class="spec-item" v-on:click="spec($event,'Monk','Brewmaster')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Monk_Brewmaster.png">
+              <p>Tank</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Monk','Mistweaver')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Monk_Mistweaver.png">
+              <p>Heal</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Monk','Windwalker')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Monk_Windwalker.png">
+              <p>Dps</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched monk">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Moine</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+      </div>
+      <div class="class-row">
+        <div id="paladin" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Paladin','Holy')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Paladin_Holy.png">
+              <p>Heal</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Paladin','Protection')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Paladin_Protection.png">
+              <p>Prot</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Paladin','Retribution')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Paladin_Retribution.png">
+              <p>Ret</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched paladin">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Pal</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="pretre" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Priest','Discipline')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Priest_Discipline.png">
+              <p>Disci</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Priest','Holy')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Priest_Holy.png">
+              <p>Sacré</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Priest','Shadow')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Priest_Shadow.png">
+              <p>Ombre</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched priest">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Prêtre</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="voleur" class="class-container">
+          <div class="class-wrapper">          
+            <a class="spec-item" v-on:click="spec($event,'Rogue','Assassination')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Rogue_Assassination.png">
+              <p>Assa</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Rogue','Outlaw')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Rogue_Outlaw.png">
+              <p>Pirate</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Rogue','Subtlety')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Rogue_Subtlety.png">
+              <p>Finesse</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched rogue">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Voleur</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+      </div>
+      <div class="class-row">
+        <div id="chaman" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Shaman','Elemental')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Shaman_Elemental.png">
+              <p>Elem</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Shaman','Enhancement')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Shaman_Enhancement.png">
+              <p>Amélio</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Shaman','Restoration')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Shaman_Restoration.png">
+              <p>Ile</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched shaman">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Chaman</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="demo" class="class-container">
+          <div class="class-wrapper">
+            <a class="spec-item" v-on:click="spec($event,'Warlock','Affliction')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warlock_Affliction.png">
+              <p>Affli</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Warlock','Destruction')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warlock_Destruction.png">
+              <p>Destru</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Warlock','Demonology')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warlock_Demonology.png">
+              <p>Démono</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched warlock">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              <span class="mdc-floating-label mdc-floating-label--float-above">Démo</span>
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
+          </div>
+        </div>
+        <div id="Guerrier" class="class-container">
+          <div class="class-wrapper">          
+            <a class="spec-item" v-on:click="spec($event,'Warrior','Arms')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warrior_Arms.png">
+              <p>Armes</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Warrior','Fury')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warrior_Fury.png">
+              <p>Fureur</p>
+            </a>
+            <a class="spec-item" v-on:click="spec($event,'Warrior','Protection')">
+              <img class="img-choice-button" src="/wp-content/wow-images/specs/Warrior_Protection.png">
+              <p>Prot</p>
+            </a>
+          </div>
+          <div class="mdc-notched-outline mdc-notched-outline--upgraded mdc-notched-outline--notched warrior">
+            <div class="mdc-notched-outline__leading warrior"></div>
+            <div class="mdc-notched-outline__notch warrior">
+              <span class="mdc-floating-label mdc-floating-label--float-above">War</span>
+            </div>
+            <div class="mdc-notched-outline__trailing warrior"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-if="index" id="bosses" class="overlay">
+    <div class="boss-row">
+      <a class="boss-unit" v-for="item in index.encounters" v-on:click="boss($event,item.id,item.name)" href="#">
+        <img v-bind:src="'/wp-content/wow-images/encounters/'+item.id+'.png'"> 
+        <p>{{ item.name }}</p>
+      </a>
+    </div>
+  </div>
+  <div v-if="loaded" id="data">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="table-title talents-title">Talents</th>
+          <th class="table-title title-sizing">Légendaire</th>
+          <th class="table-title title-sizing">Meilleur Rang</th>
+          <th class="table-title num-sizing">Nombre</th>
+          <th class="table-title cove-sizing">Congrégations</th>
+          <th class="table-title title-sizing">Prio Stats</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-for="(combo,index) in talentCombos.combos">
+          <tr v-if="!combo.tc.id.includes('None')" class="tc-container" @click="toggleConduits(index)">
+            <td class="talents">
+              <a v-for="talent in combo.tc.talents" class="tc-talent" v-bind:href="'https://fr.wowhead.com/spell='+talent.id" target="_blank" rel="noopener">
+                <img class="talent-img" v-bind:src="'/wp-content/wow-images/talents/'+talent.id+'.jpg'">
+                <p class="talent-name">{{talents[talent.id]}}</p>
+              </a>
+            </td>
+            <td class="legs">
+              <a v-for="leg in combo.legendaries" class="tc-talent" v-bind:href="'https://fr.wowhead.com/spell='+leg.id" target="_blank" rel="noopener">
+                <img class="talent-img" v-bind:src="'https://render-eu.worldofwarcraft.com/icons/56/'+leg.icon">
+                <p class="talent-name">{{leg.name}}</p>
+              </a>
+            </td>
+            <td class="hrank">{{combo.rank}}</td>
+            <td class="count">{{combo.count}}</td>
+            <td>
+              <div class="covenants">
+                <div class="covenant">
+                  <div class="number">{{combo.covenant_list[0]}}</div>
+                  <div class="label">Kyrian</div>
+                </div>
+                <div class="covenant">
+                  <div class="number">{{combo.covenant_list[1]}}</div>
+                  <div class="label">Venthyr</div>
+                </div>
+                <div class="covenant">
+                  <div class="number">{{combo.covenant_list[2]}}</div>
+                  <div class="label">Faë</div>
+                </div>
+                <div class="covenant">
+                  <div class="number">{{combo.covenant_list[3]}}</div>
+                  <div class="label">Nécro</div>
+                </div>
+              </div>
+            </td>
+            <td class="stats">{{combo.stat_priorities.prio}}</td>
+          </tr>
+          <tr v-bind:id="'detail-'+index" style="display: none" @click="toggleConduits(index)">
+            <td colspan="6">
+              <div class="conduits">
+                <div class="titre">Combinaisons de conduits et pouvoirs</div>
+                <div class="titre">Lien d'âme</div>
+                <div class="titre">Meilleur rang</div>
+                <div class="titre">Nombre</div>
+                <template v-for="combi in combo.conduits">
+                  <div class="combis">
+<p class="conduit tc-talent" v-if="combi.combination.length==0"> nc </p>
+                    <a class="conduit tc-talent" v-for="item in combi.combination" v-bind:class="{'conduit-img':(conduits[item].type=='conduit')}" v-bind:href="'https://fr.wowhead.com/spell='+item" target="_blank" rel="noopener">
+                      <img class="talent-img" v-bind:src="'/wp-content/wow-images/conduits/'+item+'.jpg'">
+                      <p class="talent-name">{{conduits[item].name}}</p>
+                    </a>
+                  </div>
+                  <div v-if="combi.sbid">{{soulbinds[combi.sbid].name}}</div><p v-if="!combi.sbid"> nc </p>
+                  <div>{{combi.rank}}</div>
+                  <div>{{combi.count}}</div>
+                </template>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+
+
+
+     
+    </table>
+    <div class="global_covenants">
+      <div class="global_covenant">
+        <div class="covepic">
+          <img src="/wp-content/wow-images/covenants/kyrian.png">
+          <p class="c_label">Kyrian</p>          
+        </div>
+        <p class="c_number">{{talentCombos.covenant_list[0]}}</p>
+      </div>
+      <div class="global_covenant">
+        <div class="covepic">
+          <img src="/wp-content/wow-images/covenants/venthyr.png">
+          <p class="c_label">Venthyr</p>          
+        </div>
+        <p class="c_number">{{talentCombos.covenant_list[1]}}</p>
+      </div>
+      <div class="global_covenant">
+        <div class="covepic">
+          <img src="/wp-content/wow-images/covenants/fae.png">
+          <p class="c_label">Faë</p>          
+        </div>
+        <p class="c_number">{{talentCombos.covenant_list[2]}}</p>
+      </div>
+      <div class="global_covenant">
+        <div class="covepic">
+          <img src="/wp-content/wow-images/covenants/necrolord.png">
+          <p class="c_label">Nécro</p>
+        </div>
+        <p class="c_number">{{talentCombos.covenant_list[3]}}</p>
+      </div>
+    </div>
+    <p style="font-size: 10px;text-align: end;">Données mises à jour le {{showDateTime}} depuis warcraftlogs.com.</p>
+  </div>
+  
+</div>
+<div v-if="loadingAnim" class="loading-animation">
+    <span class="first-ball"></span>
+    <span class="second-ball"></span>
+    <span class="third-ball"></span>
+  </div>
+</div>
+
+<script src="https://stratwow.com/wp-content/wcl-data/main-page.js"></script>
+<style>@import url('/wp-content/wcl-data/main.css')</style>
